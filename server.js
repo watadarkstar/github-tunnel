@@ -1,3 +1,4 @@
+require("dotenv").config();
 const axios = require("axios");
 const express = require("express");
 const app = express();
@@ -5,7 +6,12 @@ const port = process.env.PORT || 3000;
 
 app.get("/repos/:githUser/:githubRepo/commits", (req, response) => {
   const { githUser, githubRepo } = req.params;
-  const url = `https://api.github.com/repos/${githUser}/${githubRepo}/commits`;
+  const { github_client_id, github_client_secret } = process.env;
+
+  console.log("github_client_id", github_client_id);
+  console.log("github_client_secret", github_client_secret);
+
+  const url = `https://api.github.com/repos/${githUser}/${githubRepo}/commits?client_id=${github_client_id}&client_secret=${github_client_secret}`;
 
   console.log(`fetching ${url}`);
 
