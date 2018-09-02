@@ -3,12 +3,16 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get("/", (request, response) => {
+app.get("/repos/:githUser/:githubRepo/commits", (req, response) => {
+  const { githUser, githubRepo } = req.params;
+  const url = `https://api.github.com/repos/${githUser}/${githubRepo}/commits`;
+
+  console.log(`fetching ${url}`);
+
   axios
-    .get("https://api.github.com/repos/adamocarolli/paper-signals/commits")
+    .get(url)
     .then(function(res) {
       // handle success
-      console.log(res.data);
       response.send(res.data);
     })
     .catch(function(error) {
