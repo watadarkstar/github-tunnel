@@ -7,20 +7,18 @@ const port = process.env.PORT || 3000;
 app.get("/repos/:githUser/:githubRepo/commits", (req, response) => {
   const { githUser, githubRepo } = req.params;
   const { github_client_id, github_client_secret } = process.env;
+  const url = `https://api.github.com/repos/${githUser}/${githubRepo}/commits?client_id=${github_client_id}&client_secret=${github_client_secret}`;
 
   console.log("github_client_id", github_client_id);
   console.log("github_client_secret", github_client_secret);
-
-  const url = `https://api.github.com/repos/${githUser}/${githubRepo}/commits?client_id=${github_client_id}&client_secret=${github_client_secret}`;
-
   console.log(`fetching ${url}`);
 
   axios
     .get(url)
     .then(function(res) {
       // handle success
-      const data = res.data.map(({ sha }) => {
-        return { sha };
+      const data = res.data.map(({ sha, commit: { message } }) => {
+        return { sha, message };
       });
       response.json(data);
     })
