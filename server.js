@@ -14,7 +14,7 @@ app.get("/repos/:githUser/:githubRepo/commits", (req, response) => {
     .then(function(res) {
       // handle success
       response.setHeader("Content-Type", "application/json");
-      response.send(JSON.stringify(res.data));
+      response.send(JSON.stringify([{ sha: res.data[0]["sha"] }]));
     })
     .catch(function(error) {
       // handle error
