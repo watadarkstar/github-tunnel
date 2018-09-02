@@ -13,8 +13,10 @@ app.get("/repos/:githUser/:githubRepo/commits", (req, response) => {
     .get(url)
     .then(function(res) {
       // handle success
-      response.setHeader("Content-Type", "application/json");
-      response.send(JSON.stringify([{ sha: res.data[0]["sha"] }]));
+      const data = res.data.map(c => {
+        return { sha: c.sha };
+      });
+      response.json(data);
     })
     .catch(function(error) {
       // handle error
