@@ -13,7 +13,7 @@ app.get("/repos/:githUser/:githubRepo/commits", (req, response) => {
     .get(url)
     .then(function(res) {
       // handle success
-      response.send(res.data);
+      response.json(res.data);
     })
     .catch(function(error) {
       // handle error
